@@ -50,7 +50,7 @@ import org.xnio.Sequence;
  * At EndpointImpl: closeAction takes place while there is a new connection being made.
  * This test makes sure resourceCount does not get inconsistent (there is a window between a connection being added to
  * resourceCount and being added to connections map, this is the window that will be explored by this test).
- * 
+ *
  * @author <a href="mailto:flavia.rainone@jboss.com">Flavia Rainone</a>
  */
 @RunWith(BMUnitRunner.class)
@@ -71,9 +71,9 @@ public class CloseConnectingEndpointTestCase {
         // create connect and close endpoint threads
         Connect connectRunnable = new Connect(endpoint);
         Thread connectThread = new Thread(connectRunnable);
+        connectThread.start();
         Thread closeEndpointThread = new Thread(new CloseEndpoint(endpoint));
         // execute and run threads
-        connectThread.start();
         closeEndpointThread.start();
         connectThread.join();
         closeEndpointThread.join();
@@ -83,7 +83,7 @@ public class CloseConnectingEndpointTestCase {
     }
 
     private class Connect implements Runnable {
-        private boolean failed = false;
+        private volatile boolean failed = false;
         private final Endpoint endpoint;
 
         public Connect(Endpoint endpoint) {
