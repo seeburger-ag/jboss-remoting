@@ -20,9 +20,7 @@
   ~ 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -31,7 +29,7 @@
 
     <groupId>com.seeburger.fork</groupId>
     <artifactId>jboss-remoting</artifactId>
-    <version>3.2.19.SEE1-SNAPSHOT</version>
+    <version>3.2.19.SEE1</version>
 
     <packaging>jar</packaging>
 
@@ -45,7 +43,8 @@
         <connection>scm:git:git://github.com/seeburger-ag/jboss-remoting.git</connection>
         <developerConnection>scm:git:git@github.com:seeburger-ag/jboss-remoting.git</developerConnection>
         <url>https://github.com/seeburger-ag/jboss-remoting</url>
-    </scm>
+      <tag>jboss-remoting-3.2.19.SEE1</tag>
+  </scm>
 
     <properties>
         <xnio.version>3.0.7.GA</xnio.version>
@@ -239,7 +238,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -258,7 +257,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore></ignore>
+                                        <ignore />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
