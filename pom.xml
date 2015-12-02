@@ -29,9 +29,9 @@
     <name>JBoss Remoting 3</name>
     <description>JBoss Remoting 3</description>
 
-    <groupId>org.jboss.remoting3</groupId>
+    <groupId>com.seeburger.fork</groupId>
     <artifactId>jboss-remoting</artifactId>
-    <version>3.2.19.GA</version>
+    <version>3.2.19.GA.SEE1-SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
