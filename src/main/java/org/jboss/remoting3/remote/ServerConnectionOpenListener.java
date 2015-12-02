@@ -119,7 +119,7 @@ final class ServerConnectionOpenListener  implements ChannelListener<ConnectedMe
             if (! ok) pooled.free();
         }
     }
-    
+
     private void saslDispose(final SaslServer saslServer) {
         if (saslServer != null) {
             try {
@@ -494,7 +494,7 @@ final class ServerConnectionOpenListener  implements ChannelListener<ConnectedMe
                         }
                     }
                 } catch (Throwable e) {
-                    server.tracef("Server sending authentication rejected (%s)", e);                    
+                    server.tracef("Server sending authentication rejected (%s)", e);
                     sendBuffer.put(p, Protocol.AUTH_REJECTED);
                     saslDispose(saslServer);
                     if (isInitial) {
@@ -609,6 +609,15 @@ final class ServerConnectionOpenListener  implements ChannelListener<ConnectedMe
                         connection.setReadListener(initial, true);
                         initial.handleClientCapabilities(buffer);
                         initial.sendCapabilities();
+                        return;
+                    }
+                    case Protocol.CONNECTION_ALIVE: {
+                        server.trace("Server received connection alive");
+                        connection.sendAliveResponse();
+                        return;
+                    }
+                    case Protocol.CONNECTION_ALIVE_ACK: {
+                        server.trace("Server received connection alive ack");
                         return;
                     }
                     default: {
