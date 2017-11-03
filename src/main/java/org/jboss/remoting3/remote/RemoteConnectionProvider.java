@@ -348,6 +348,13 @@ final class RemoteConnectionProvider extends AbstractHandleableCloseable<Connect
             }
             try {
                 accepted.setOption(Options.TCP_NODELAY, Boolean.TRUE);
+
+                if (Boolean.TRUE.equals(serverOptionMap.get(Options.KEEP_ALIVE))) {
+                    if (RemoteLogger.log.isTraceEnabled()) {
+                        RemoteLogger.log.tracef("KEEP_ALIVE set for accepting channel %s" + accepted.getLocalAddress());
+                    }
+                    accepted.setOption(Options.KEEP_ALIVE, Boolean.TRUE);
+                }
             } catch (IOException e) {
                 // ignore
             }
