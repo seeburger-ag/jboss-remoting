@@ -309,7 +309,8 @@ final class RemoteConnection {
                             return;
                         }
                         RemoteLogger.conn.logf(FQCN, Logger.Level.TRACE, null, "Flushed channel (direct)");
-                        if (! close) {
+                        if (! close && heartbeatInterval < Integer.MAX_VALUE) {
+                            // no need to queue a task otherwise
                             this.heartKey = channel.getWriteThread().executeAfter(heartbeatCommand, heartbeatInterval, TimeUnit.MILLISECONDS);
                         }
                     } else {

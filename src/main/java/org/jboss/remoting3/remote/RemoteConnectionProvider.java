@@ -167,6 +167,28 @@ final class RemoteConnectionProvider extends AbstractHandleableCloseable<Connect
             public void handleEvent(final ConnectedStreamChannel channel) {
                 try {
                     channel.setOption(Options.TCP_NODELAY, Boolean.TRUE);
+
+                    // set other TCP options in case they were set externally
+                    if (Boolean.TRUE.equals(connectOptions.get(Options.KEEP_ALIVE))) {
+                        if (RemoteLogger.log.isTraceEnabled()) {
+                            RemoteLogger.log.tracef("KEEP_ALIVE set for channel %s" + channel.getLocalAddress());
+                        }
+                        channel.setOption(Options.KEEP_ALIVE, Boolean.TRUE);
+                    }
+
+                    if (Boolean.TRUE.equals(connectOptions.get(Options.REUSE_ADDRESSES))) {
+                        if (RemoteLogger.log.isTraceEnabled()) {
+                            RemoteLogger.log.tracef("REUSE_ADDRESSES set for channel %s" + channel.getLocalAddress());
+                        }
+                        channel.setOption(Options.REUSE_ADDRESSES, Boolean.TRUE);
+                    }
+
+                    if (Boolean.TRUE.equals(connectOptions.get(Options.TCP_OOB_INLINE))) {
+                        if (RemoteLogger.log.isTraceEnabled()) {
+                            RemoteLogger.log.tracef("TCP_OOB_INLINE set for channel %s" + channel.getLocalAddress());
+                        }
+                        channel.setOption(Options.TCP_OOB_INLINE, Boolean.TRUE);
+                    }
                 } catch (IOException e) {
                     // ignore
                 }
@@ -213,7 +235,7 @@ final class RemoteConnectionProvider extends AbstractHandleableCloseable<Connect
                 attachment.setCancelled();
             }
         }, cancellableResult);
-        // if future stream channel is canceled, we need to cancel the connection handler result 
+        // if future stream channel is canceled, we need to cancel the connection handler result
         returnedFuture.addNotifier(new IoFuture.HandlingNotifier<ConnectionHandlerFactory, IoFuture<ConnectionHandlerFactory>>() {
             public void handleCancelled(IoFuture<ConnectionHandlerFactory> attachment) {
                 pendingInboundConnections.remove(attachment);
@@ -334,7 +356,9 @@ final class RemoteConnectionProvider extends AbstractHandleableCloseable<Connect
             final RemoteConnection connection = new RemoteConnection(messageBufferPool, accepted, messageChannel, serverOptionMap, RemoteConnectionProvider.this);
             final ServerConnectionOpenListener openListener = new ServerConnectionOpenListener(connection, connectionProviderContext, serverAuthenticationProvider, serverOptionMap, accessControlContext);
             messageChannel.getWriteSetter().set(connection.getWriteListener());
-            RemoteLogger.log.tracef("Accepted connection from %s to %s", accepted.getPeerAddress(), accepted.getLocalAddress());
+            if (RemoteLogger.log.isTraceEnabled()) {
+                RemoteLogger.log.tracef("Accepted connection from %s to %s", accepted.getPeerAddress(), accepted.getLocalAddress());
+            }
             openListener.handleEvent(messageChannel);
         }
     }
