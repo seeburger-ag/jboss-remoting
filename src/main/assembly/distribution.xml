@@ -1,0 +1,27 @@
+<assembly
+    xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
+    <id>distribution</id>
+    <baseDirectory></baseDirectory>
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <files>
+        <file>
+            <outputDirectory>jboss/software/deployer/modules/org/jboss/remoting3/main</outputDirectory>
+            <source>${project.build.directory}/${project.artifactId}-${project.version}.jar</source>
+        </file>
+    </files>
+
+    <fileSets>
+        <fileSet>
+            <filtered>true</filtered>
+            <directory>src/main/resources</directory>
+            <outputDirectory>jboss/software/deployer</outputDirectory>
+        </fileSet>
+    </fileSets>
+
+</assembly>
