@@ -167,27 +167,9 @@ final class RemoteConnectionProvider extends AbstractHandleableCloseable<Connect
             public void handleEvent(final ConnectedStreamChannel channel) {
                 try {
                     channel.setOption(Options.TCP_NODELAY, Boolean.TRUE);
-
-                    // set other TCP options in case they were set externally
-                    if (Boolean.TRUE.equals(connectOptions.get(Options.KEEP_ALIVE))) {
-                        if (RemoteLogger.log.isTraceEnabled()) {
-                            RemoteLogger.log.tracef("KEEP_ALIVE set for channel %s" + channel.getLocalAddress());
-                        }
-                        channel.setOption(Options.KEEP_ALIVE, Boolean.TRUE);
-                    }
-
-                    if (Boolean.TRUE.equals(connectOptions.get(Options.REUSE_ADDRESSES))) {
-                        if (RemoteLogger.log.isTraceEnabled()) {
-                            RemoteLogger.log.tracef("REUSE_ADDRESSES set for channel %s" + channel.getLocalAddress());
-                        }
-                        channel.setOption(Options.REUSE_ADDRESSES, Boolean.TRUE);
-                    }
-
-                    if (Boolean.TRUE.equals(connectOptions.get(Options.TCP_OOB_INLINE))) {
-                        if (RemoteLogger.log.isTraceEnabled()) {
-                            RemoteLogger.log.tracef("TCP_OOB_INLINE set for channel %s" + channel.getLocalAddress());
-                        }
-                        channel.setOption(Options.TCP_OOB_INLINE, Boolean.TRUE);
+                    channel.setOption(Options.KEEP_ALIVE, Boolean.TRUE);
+                    if (RemoteLogger.log.isTraceEnabled()) {
+                        RemoteLogger.log.tracef("KEEP_ALIVE and TCP_NODELAY set for channel %s" + channel.getLocalAddress());
                     }
                 } catch (IOException e) {
                     // ignore
@@ -348,12 +330,9 @@ final class RemoteConnectionProvider extends AbstractHandleableCloseable<Connect
             }
             try {
                 accepted.setOption(Options.TCP_NODELAY, Boolean.TRUE);
-
-                if (Boolean.TRUE.equals(serverOptionMap.get(Options.KEEP_ALIVE))) {
-                    if (RemoteLogger.log.isTraceEnabled()) {
-                        RemoteLogger.log.tracef("KEEP_ALIVE set for accepting channel %s" + accepted.getLocalAddress());
-                    }
-                    accepted.setOption(Options.KEEP_ALIVE, Boolean.TRUE);
+                accepted.setOption(Options.KEEP_ALIVE, Boolean.TRUE);
+                if (RemoteLogger.log.isTraceEnabled()) {
+                    RemoteLogger.log.tracef("KEEP_ALIVE and TCP_NODELAY set for accepting channel %s" + accepted.getLocalAddress());
                 }
             } catch (IOException e) {
                 // ignore
