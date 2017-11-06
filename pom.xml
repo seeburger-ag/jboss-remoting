@@ -29,7 +29,7 @@
 
     <groupId>com.seeburger.fork</groupId>
     <artifactId>jboss-remoting</artifactId>
-    <version>3.2.19.SEE3-SNAPSHOT</version>
+    <version>3.2.19.SEE3</version>
 
     <packaging>jar</packaging>
 
@@ -43,7 +43,7 @@
         <connection>scm:git:git://github.com/seeburger-ag/jboss-remoting.git</connection>
         <developerConnection>scm:git:git@github.com:seeburger-ag/jboss-remoting.git</developerConnection>
         <url>https://github.com/seeburger-ag/jboss-remoting</url>
-      <tag>HEAD</tag>
+      <tag>jboss-remoting-3.2.19.SEE3</tag>
   </scm>
 
     <properties>
